@@ -38,6 +38,11 @@ app.get('/play', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'player.html'));
 });
 
+// Root has no dedicated screen - send visitors to the host view.
+app.get('/', (req, res) => {
+  res.redirect('/host');
+});
+
 // ---------------------------------------------------------------------------
 // In-memory state
 // ---------------------------------------------------------------------------
