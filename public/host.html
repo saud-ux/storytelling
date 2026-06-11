@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قصة جماعية - شاشة المضيف</title>
+  <link rel="stylesheet" href="/css/storybook.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="title">📖 قصة جماعية</h1>
+    <p class="subtitle">شاشة المضيف</p>
+
+    <!-- LOBBY -->
+    <section id="lobbyPhase" class="card hidden">
+      <div class="qr-section">
+        <div class="qr-box">
+          <img id="qrImg" src="" alt="QR" />
+        </div>
+        <div>
+          <div class="room-code" id="roomCodeText">----</div>
+          <div class="join-url" id="joinUrlText"></div>
+        </div>
+      </div>
+
+      <h3 style="text-align:center; margin-top: 18px;">اللاعبون المنضمون</h3>
+      <ul class="player-list" id="lobbyPlayerList"></ul>
+
+      <div style="max-width: 480px; margin: 20px auto 0; display:flex; flex-direction:column; gap:12px;">
+        <textarea id="seedInput" rows="3" maxlength="300" placeholder="اكتب الجملة الافتتاحية للقصة هنا..."></textarea>
+        <div class="btn-row">
+          <button class="btn gold" id="startBtn">ابدأ القصة</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section id="writingPhase" class="card hidden">
+      <div id="pausedMsg" class="center-msg hidden">⏸️ في انتظار انضمام لاعبين... القصة متوقفة مؤقتاً.</div>
+
+      <div id="writingActive">
+        <div class="turn-banner" id="turnBanner"></div>
+        <div class="timer" id="timerText">--</div>
+
+        <div class="story" id="storyDisplay"></div>
+
+        <div id="pendingArea" class="hidden" style="margin-top:16px;">
+          <div class="pending-box">
+            <div class="author" id="pendingAuthor"></div>
+            <div id="pendingText" style="margin-top:8px;"></div>
+          </div>
+          <div class="btn-row" style="margin-top:12px;">
+            <button class="btn green" id="approveBtn">✅ اعتماد</button>
+            <button class="btn" id="skipBtn">⏭️ تخطّي</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:20px;">
+        <button class="btn" id="endStoryBtn">📕 إنهاء القصة</button>
+      </div>
+    </section>
+
+    <!-- REVEAL -->
+    <section id="revealPhase" class="card hidden">
+      <h2 style="text-align:center; color:var(--burgundy-dark);">✨ كشف القصة الكاملة ✨</h2>
+      <div class="story" id="revealStory"></div>
+      <div class="btn-row" style="margin-top:20px;">
+        <button class="btn gold hidden" id="startVotingBtn">🗳️ بدء التصويت</button>
+      </div>
+    </section>
+
+    <!-- VOTING -->
+    <section id="votingPhase" class="card hidden">
+      <h2 style="text-align:center; color:var(--burgundy-dark);">🗳️ التصويت جارٍ...</h2>
+      <div class="story" id="votingStory"></div>
+      <div class="center-msg" id="voteProgressText"></div>
+      <div class="btn-row" style="margin-top:20px;">
+        <button class="btn gold" id="endVotingBtn">📣 إظهار النتيجة</button>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="resultsPhase" class="card hidden">
+      <div class="winner-box">
+        <div class="crown">👑</div>
+        <h2 id="winnersTitle">الفائز بأطرف جملة</h2>
+        <div id="winnersContainer"></div>
+      </div>
+      <div class="story" id="resultsStory"></div>
+      <h3 style="text-align:center;">عدد الأصوات</h3>
+      <div class="tally-list" id="tallyList"></div>
+      <div class="btn-row" style="margin-top:20px;">
+        <button class="btn gold" id="newStoryBtn">📖 قصة جديدة</button>
+        <button class="btn" id="endSessionBtn">🚪 إنهاء الجلسة</button>
+      </div>
+    </section>
+
+    <div class="error-toast" id="errorToast"></div>
+    <footer class="credit">قصة جماعية - لعبة جماعية للبث المباشر</footer>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/host.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "qissa-jamaiya",
+  "version": "1.0.0",
+  "description": "قصة جماعية - Collaborative Story live game for TikTok Live",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "qrcode": "^1.5.3",
+    "socket.io": "^4.7.5"
+  }
+}

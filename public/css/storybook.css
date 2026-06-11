@@ -1,0 +1,451 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&display=swap');
+
+:root {
+  --parchment-1: #f4e9d4;
+  --parchment-2: #e9d9b8;
+  --ink: #3b2c20;
+  --ink-soft: #6a5640;
+  --gold: #c8a24a;
+  --gold-bright: #e0bd6a;
+  --burgundy: #7a2c2c;
+  --burgundy-dark: #5c1f1f;
+  --green-ok: #3f6b3f;
+  --shadow: rgba(59, 44, 32, 0.25);
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Amiri', 'Traditional Arabic', serif;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(59,44,32,0.25) 100%),
+    linear-gradient(160deg, var(--parchment-1) 0%, var(--parchment-2) 60%, #ddc69e 100%);
+  min-height: 100vh;
+  direction: rtl;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  color: var(--burgundy-dark);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  margin: 8px 0 0;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.card {
+  background: rgba(255, 252, 244, 0.65);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px var(--shadow);
+  padding: 18px;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(200, 162, 74, 0.35);
+  border-radius: calc(var(--radius) - 4px);
+  pointer-events: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fbf3df;
+  background: linear-gradient(180deg, var(--burgundy) 0%, var(--burgundy-dark) 100%);
+  border: 1px solid #4a1818;
+  border-radius: 999px;
+  padding: 12px 28px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #3a1212, 0 6px 10px var(--shadow);
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
+}
+
+.btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 #3a1212, 0 3px 6px var(--shadow);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn.gold {
+  background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 100%);
+  color: var(--ink);
+  border-color: #9a7a30;
+  box-shadow: 0 3px 0 #8a6c28, 0 6px 10px var(--shadow);
+}
+
+.btn.green {
+  background: linear-gradient(180deg, #6fa06f 0%, var(--green-ok) 100%);
+  border-color: #2c4a2c;
+  box-shadow: 0 3px 0 #2c4a2c, 0 6px 10px var(--shadow);
+}
+
+.btn.small {
+  padding: 6px 16px;
+  font-size: 0.9rem;
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------------- Inputs ---------------- */
+input[type="text"], textarea {
+  font-family: inherit;
+  font-size: 1.05rem;
+  background: #fffdf6;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--ink);
+  width: 100%;
+  direction: rtl;
+}
+
+input[type="text"]:focus, textarea:focus {
+  outline: 2px solid var(--gold-bright);
+}
+
+/* ---------------- Lobby / QR ---------------- */
+.qr-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-box {
+  background: #fffdf6;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid var(--gold);
+}
+
+.qr-box img {
+  display: block;
+  width: 180px;
+  height: 180px;
+}
+
+.room-code {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--burgundy);
+  text-align: center;
+  direction: ltr;
+}
+
+.join-url {
+  text-align: center;
+  color: var(--ink-soft);
+  word-break: break-all;
+  direction: ltr;
+}
+
+/* ---------------- Player list ---------------- */
+.player-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.player-chip {
+  background: var(--parchment-1);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.player-chip.disconnected {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.player-chip.current {
+  background: var(--gold-bright);
+  border-color: var(--burgundy);
+  font-weight: 700;
+}
+
+.player-chip .remove-btn {
+  cursor: pointer;
+  color: var(--burgundy);
+  font-weight: 700;
+  border: none;
+  background: none;
+  font-size: 1rem;
+}
+
+/* ---------------- Story ---------------- */
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1.25rem;
+  line-height: 2.1;
+}
+
+.story-line {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  opacity: 1;
+}
+
+.story-line .num {
+  color: var(--gold);
+  font-weight: 700;
+  min-width: 1.6em;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.story-line .text {
+  flex: 1;
+}
+
+.story-line .author {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.story-line.reveal-anim {
+  animation: ink-in 1s ease forwards;
+  opacity: 0;
+}
+
+@keyframes ink-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ---------------- Turn / timer ---------------- */
+.turn-banner {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--burgundy);
+}
+
+.timer {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+}
+
+.timer.low {
+  color: var(--burgundy);
+  animation: pulse 0.6s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+/* ---------------- Pending review (host) ---------------- */
+.pending-box {
+  background: var(--parchment-1);
+  border: 2px dashed var(--gold);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.pending-box .author {
+  color: var(--burgundy);
+  font-weight: 700;
+}
+
+/* ---------------- Voting ---------------- */
+.vote-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vote-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fffdf6;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-align: right;
+}
+
+.vote-option:hover:not(.disabled):not(.selected) {
+  border-color: var(--burgundy);
+  background: var(--parchment-1);
+}
+
+.vote-option.selected {
+  border-color: var(--green-ok);
+  background: #e6f0e6;
+  font-weight: 700;
+}
+
+.vote-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vote-option .num {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ---------------- Results ---------------- */
+.winner-box {
+  text-align: center;
+  padding: 20px;
+}
+
+.winner-box .crown {
+  font-size: 3rem;
+}
+
+.winner-line {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.winner-author {
+  font-size: 1.2rem;
+  color: var(--burgundy);
+}
+
+.tally-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.tally-row {
+  display: flex;
+  justify-content: space-between;
+  background: #fffdf6;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+
+.tally-row.winner {
+  border-color: var(--green-ok);
+  background: #e6f0e6;
+  font-weight: 700;
+}
+
+/* ---------------- Misc ---------------- */
+.center-msg {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+  padding: 20px;
+}
+
+.error-toast {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--burgundy-dark);
+  color: #fbf3df;
+  padding: 10px 22px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px var(--shadow);
+  font-size: 1rem;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.error-toast.show {
+  opacity: 1;
+}
+
+.name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+footer.credit {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  padding-bottom: 12px;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قصة جماعية</title>
+  <link rel="stylesheet" href="/css/storybook.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="title">📖 قصة جماعية</h1>
+
+    <!-- JOIN -->
+    <section id="joinPhase" class="card hidden">
+      <h2 style="text-align:center;">انضم إلى القصة</h2>
+      <form class="name-form" id="joinForm">
+        <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" maxlength="20" required />
+        <div class="btn-row">
+          <button type="submit" class="btn gold">انضمام</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- WAITING / LOBBY -->
+    <section id="waitingPhase" class="card hidden">
+      <div class="center-msg">مرحباً <span id="waitingName"></span> 👋<br/>بانتظار بدء المضيف للقصة...</div>
+      <ul class="player-list" id="waitingPlayerList"></ul>
+    </section>
+
+    <!-- WRITING -->
+    <section id="writingPhase" class="card hidden">
+      <div class="story" id="storyDisplay"></div>
+
+      <div id="pausedMsg" class="center-msg hidden">⏸️ القصة متوقفة مؤقتاً بانتظار لاعبين...</div>
+
+      <div id="yourTurnArea" class="hidden" style="margin-top:16px;">
+        <div class="turn-banner">✍️ دورك الآن!</div>
+        <div class="timer" id="timerText">--</div>
+        <textarea id="lineInput" rows="3" maxlength="150" placeholder="اكتب جملتك التالية..."></textarea>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn gold" id="submitLineBtn">إرسال</button>
+        </div>
+        <div class="center-msg" id="submittedMsg" hidden>✅ تم الإرسال، بانتظار موافقة المضيف...</div>
+      </div>
+
+      <div id="otherTurnArea" class="hidden" style="margin-top:16px;">
+        <div class="turn-banner" id="otherTurnBanner"></div>
+        <div class="timer" id="otherTimerText">--</div>
+      </div>
+    </section>
+
+    <!-- REVEAL -->
+    <section id="revealPhase" class="card hidden">
+      <div class="center-msg">📖 يتم كشف القصة على الشاشة الكبيرة...</div>
+      <div class="story" id="revealStory"></div>
+    </section>
+
+    <!-- VOTING -->
+    <section id="votingPhase" class="card hidden">
+      <h2 style="text-align:center; color:var(--burgundy-dark);">🗳️ صوّت لأطرف جملة</h2>
+      <div class="vote-list" id="voteList"></div>
+      <div class="center-msg" id="votedMsg" hidden>✅ شكراً لتصويتك! بانتظار باقي اللاعبين...</div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="resultsPhase" class="card hidden">
+      <div class="winner-box">
+        <div class="crown">👑</div>
+        <h2 id="winnersTitle">الفائز بأطرف جملة</h2>
+        <div id="winnersContainer"></div>
+      </div>
+      <div class="story" id="resultsStory"></div>
+    </section>
+
+    <!-- SESSION ENDED -->
+    <section id="endedPhase" class="card hidden">
+      <div class="center-msg">🚪 أنهى المضيف الجلسة. شكراً للمشاركة!</div>
+    </section>
+
+    <div class="error-toast" id="errorToast"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/player.js"></script>
+</body>
+</html>
