@@ -253,11 +253,23 @@ function buildHostState(room) {
 function buildPlayerState(room, playerId) {
   const snap = baseSnapshot(room);
   const player = room.players[playerId];
-  snap.story = storyForClient(room, playerId);
+  const isYourTurn = snap.currentTurnPlayerId === playerId;
+
+  if (room.phase === 'writing') {
+    // Keep the story a surprise: only the active writer gets the prior
+    // lines (as plain context, not the assembled story) for continuity;
+    // everyone else sees nothing until the big reveal.
+    snap.story = [];
+    snap.context = isYourTurn ? room.story.map(l => ({ lineNo: l.lineNo, text: l.text })) : [];
+  } else {
+    snap.story = storyForClient(room, playerId);
+    snap.context = [];
+  }
+
   snap.you = {
     id: playerId,
     name: player ? player.name : '',
-    isYourTurn: snap.currentTurnPlayerId === playerId,
+    isYourTurn,
     hasSubmitted: !!(room.pending && room.pending.authorId === playerId),
     hasVoted: Object.prototype.hasOwnProperty.call(room.votes, playerId),
     yourVote: Object.prototype.hasOwnProperty.call(room.votes, playerId) ? room.votes[playerId] : null

@@ -22,9 +22,9 @@
   const waitingName = document.getElementById('waitingName');
   const waitingPlayerList = document.getElementById('waitingPlayerList');
 
-  const storyDisplay = document.getElementById('storyDisplay');
   const pausedMsg = document.getElementById('pausedMsg');
   const yourTurnArea = document.getElementById('yourTurnArea');
+  const contextCards = document.getElementById('contextCards');
   const timerText = document.getElementById('timerText');
   const lineInput = document.getElementById('lineInput');
   const submitLineBtn = document.getElementById('submitLineBtn');
@@ -77,6 +77,16 @@
         author.textContent = `— ${line.authorName}`;
         div.appendChild(author);
       }
+      container.appendChild(div);
+    }
+  }
+
+  function renderContextCards(container, context) {
+    container.innerHTML = '';
+    for (const line of context) {
+      const div = document.createElement('div');
+      div.className = 'context-card';
+      div.textContent = line.text;
       container.appendChild(div);
     }
   }
@@ -153,13 +163,13 @@
     }
 
     if (state.phase === 'writing') {
-      renderStoryLines(storyDisplay, state.story);
       pausedMsg.classList.toggle('hidden', !state.paused);
 
       if (!state.paused) {
         if (state.you.isYourTurn) {
           yourTurnArea.classList.remove('hidden');
           otherTurnArea.classList.add('hidden');
+          renderContextCards(contextCards, state.context || []);
           timerText.textContent = state.secondsLeft;
           timerText.classList.toggle('low', state.secondsLeft <= 5);
 

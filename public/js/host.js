@@ -82,6 +82,53 @@
     }
   };
 
+  // Soft ambient "storyteller" drone for the reveal/voting moments.
+  let ambiance = null;
+  function startAmbiance() {
+    if (!sfxEnabled || ambiance) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      const master = audioCtx.createGain();
+      master.gain.setValueAtTime(0, now);
+      master.gain.linearRampToValueAtTime(0.045, now + 2.5);
+      master.connect(audioCtx.destination);
+
+      const oscs = [110, 165, 220].map(freq => {
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const lfo = audioCtx.createOscillator();
+        lfo.type = 'sine';
+        lfo.frequency.value = 0.08 + Math.random() * 0.1;
+        const lfoGain = audioCtx.createGain();
+        lfoGain.gain.value = 2.5;
+        lfo.connect(lfoGain);
+        lfoGain.connect(osc.frequency);
+        osc.connect(master);
+        osc.start(now);
+        lfo.start(now);
+        return { osc, lfo };
+      });
+
+      ambiance = { master, oscs };
+    } catch (e) {
+      // ignore audio errors (autoplay restrictions, etc.)
+    }
+  }
+  function stopAmbiance() {
+    if (!ambiance || !audioCtx) return;
+    const { master, oscs } = ambiance;
+    const now = audioCtx.currentTime;
+    master.gain.linearRampToValueAtTime(0, now + 1.2);
+    setTimeout(() => {
+      oscs.forEach(({ osc, lfo }) => {
+        try { osc.stop(); lfo.stop(); } catch (e) {}
+      });
+    }, 1300);
+    ambiance = null;
+  }
+
   // ---- Helpers ------------------------------------------------------------
   function showPhase(phase) {
     for (const key of Object.keys(phases)) {
@@ -185,29 +232,59 @@
     }
   }
 
+  // Types text into `el` one character at a time, like a narrator reading aloud.
+  function typewrite(el, text, speed, onDone) {
+    let i = 0;
+    el.textContent = '';
+    const interval = setInterval(() => {
+      el.textContent += text[i];
+      i += 1;
+      if (i >= text.length) {
+        clearInterval(interval);
+        if (onDone) onDone();
+      }
+    }, speed);
+  }
+
   function runRevealAnimation(story) {
     revealStory.innerHTML = '';
+    revealStory.classList.add('dramatic');
     startVotingBtn.classList.add('hidden');
-    const PACE_MS = 1200;
-    story.forEach((line, i) => {
+    startAmbiance();
+
+    const TYPE_SPEED_MS = 35; // per character
+    const PAUSE_BETWEEN_MS = 900;
+
+    let delay = 400;
+    story.forEach((line) => {
       const div = document.createElement('div');
-      div.className = 'story-line reveal-anim';
-      div.style.animationDelay = `${i * PACE_MS}ms`;
+      div.className = 'story-line reveal-line dim';
       const num = document.createElement('span');
       num.className = 'num';
       num.textContent = line.lineNo;
       const text = document.createElement('span');
       text.className = 'text';
-      text.textContent = line.text;
       div.appendChild(num);
       div.appendChild(text);
       revealStory.appendChild(div);
-      sfx.pageTurn((i * PACE_MS) / 1000);
+
+      const lineDelay = delay;
+      setTimeout(() => {
+        div.classList.remove('dim');
+        div.classList.add('active');
+        sfx.pageTurn();
+        typewrite(text, line.text, TYPE_SPEED_MS, () => {
+          div.classList.remove('active');
+          div.classList.add('dim', 'done');
+        });
+      }, lineDelay);
+
+      delay += line.text.length * TYPE_SPEED_MS + PAUSE_BETWEEN_MS;
     });
-    const totalMs = story.length * PACE_MS + 600;
+
     setTimeout(() => {
       startVotingBtn.classList.remove('hidden');
-    }, totalMs);
+    }, delay + 300);
   }
 
   // ---- Main render ---------------------------------------------------------
@@ -269,8 +346,14 @@
       renderStoryLines(resultsStory, state.story);
       renderTally(state);
       if (lastPhase !== 'results') {
+        stopAmbiance();
         sfx.fanfare();
       }
+    }
+
+    // Stop the storytelling drone whenever we leave the reveal/voting moment.
+    if (state.phase !== 'reveal' && state.phase !== 'voting') {
+      stopAmbiance();
     }
 
     lastPhase = state.phase;

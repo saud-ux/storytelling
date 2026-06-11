@@ -29,13 +29,13 @@
 
     <!-- WRITING -->
     <section id="writingPhase" class="card hidden">
-      <div class="story" id="storyDisplay"></div>
-
       <div id="pausedMsg" class="center-msg hidden">⏸️ القصة متوقفة مؤقتاً بانتظار لاعبين...</div>
 
-      <div id="yourTurnArea" class="hidden" style="margin-top:16px;">
+      <div id="yourTurnArea" class="hidden">
         <div class="turn-banner">✍️ دورك الآن!</div>
         <div class="timer" id="timerText">--</div>
+        <p class="context-hint">تذكير بما سبق (لن يظهر هكذا للجميع - القصة الكاملة مفاجأة لاحقاً):</p>
+        <div class="context-cards" id="contextCards"></div>
         <textarea id="lineInput" rows="3" maxlength="150" placeholder="اكتب جملتك التالية..."></textarea>
         <div class="btn-row" style="margin-top:10px;">
           <button class="btn gold" id="submitLineBtn">إرسال</button>
@@ -43,7 +43,8 @@
         <div class="center-msg" id="submittedMsg" hidden>✅ تم الإرسال، بانتظار موافقة المضيف...</div>
       </div>
 
-      <div id="otherTurnArea" class="hidden" style="margin-top:16px;">
+      <div id="otherTurnArea" class="hidden">
+        <div class="center-msg">📜 القصة قيد الكتابة... ستُكشف بالكامل لاحقاً!</div>
         <div class="turn-banner" id="otherTurnBanner"></div>
         <div class="timer" id="otherTimerText">--</div>
       </div>

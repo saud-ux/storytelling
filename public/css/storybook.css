@@ -262,22 +262,74 @@ input[type="text"]:focus, textarea:focus {
   font-size: 0.95rem;
 }
 
-.story-line.reveal-anim {
-  animation: ink-in 1s ease forwards;
-  opacity: 0;
+/* ---------------- Dramatic reveal (typewriter / spotlight) ---------------- */
+.story.dramatic {
+  background: radial-gradient(ellipse at center, rgba(59,44,32,0.06) 0%, rgba(59,44,32,0.18) 100%);
+  border-radius: 10px;
+  padding: 24px 16px;
+  gap: 16px;
 }
 
-@keyframes ink-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(3px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
+.story.dramatic .story-line.reveal-line {
+  font-size: 1.4rem;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
+}
+
+.story.dramatic .story-line.reveal-line .text::after {
+  content: '\2502';
+  margin-right: 4px;
+  opacity: 0.6;
+  animation: caret-blink 0.9s steps(1) infinite;
+}
+
+.story.dramatic .story-line.reveal-line.done .text::after {
+  content: '';
+}
+
+.story.dramatic .story-line.reveal-line.dim {
+  opacity: 0.35;
+  filter: blur(1px);
+  transform: scale(0.97);
+}
+
+.story.dramatic .story-line.reveal-line.active {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1.02);
+  color: var(--burgundy-dark);
+  text-shadow: 0 0 14px rgba(200, 162, 74, 0.45);
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+/* ---------------- Writing context cards ---------------- */
+.context-hint {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin: 14px 0 8px;
+}
+
+.context-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.context-card {
+  background: #fffdf6;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  max-width: 220px;
+  box-shadow: 0 2px 4px var(--shadow);
 }
 
 /* ---------------- Turn / timer ---------------- */
